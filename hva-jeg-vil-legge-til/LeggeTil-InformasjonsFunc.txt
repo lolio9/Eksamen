@@ -1,0 +1,3 @@
+Jeg vil kunne lage en ordentlig ordre skjerm, hvor det står det du har bestilt og at du må skrive inn navn, email og adresse
+
+Prioritet: 180 - 200

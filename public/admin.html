@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Adminpanel – Lagerstyring</title>
+    <link rel="stylesheet" href="nav.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 24px;
+        background-color: #eef7f9;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      .komponent {
+        background: white;
+        padding: 16px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 16px;
+        max-width: 600px;
+        margin: 16px auto;
+      }
+
+      .komponent label {
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      .komponent input {
+        padding: 6px;
+        width: 100%;
+        margin-bottom: 12px;
+      }
+
+      .komponent button {
+        background-color: #0d3b1e;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Adminpanel – Oppdater Lager</h1>
+
+    <div id="admin-container"></div>
+
+    <script>
+      async function hentKomponenter() {
+        const res = await fetch("/api/lager");
+        const data = await res.json();
+        byggAdminSkjema(data);
+      }
+
+      function byggAdminSkjema(lager) {
+        const container = document.getElementById("admin-container");
+        let index = 0;
+        for (const kategori in lager) {
+          lager[kategori].forEach((komponent) => {
+            const div = document.createElement("div");
+            div.className = "komponent";
+            div.innerHTML = `
+        <h3>${kategori.toUpperCase()} – ${komponent.navn}</h3>
+        <label for="antall-${index}">Lagerbeholdning:</label>
+        <input type="number" id="antall-${index}" value="${komponent.antall}" />
+        <button onclick="oppdaterLager('${
+          komponent.navn
+        }', ${index})">Oppdater</button>
+      `;
+            container.appendChild(div);
+            index++;
+          });
+        }
+      }
+
+      async function oppdaterLager(navn, index) {
+        const input = document.getElementById(`antall-${index}`);
+        const nyttAntall = parseInt(input.value);
+        const res = await fetch("/api/update-lager", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ navn, antall: nyttAntall }),
+        });
+        const data = await res.json();
+        alert(data.melding || "Oppdatert!");
+      }
+
+      hentKomponenter();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+{
+  "name": "eksamen-3-4-juni-2025-lolio9",
+  "version": "1.0.0",
+  "description": "Dette er løsningen min på TOSKA-oppgaven",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tiller-vgs/eksamen-3-4-juni-2025-lolio9.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tiller-vgs/eksamen-3-4-juni-2025-lolio9/issues"
+  },
+  "homepage": "https://github.com/tiller-vgs/eksamen-3-4-juni-2025-lolio9#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "mysql2": "^3.14.1"
+  }
+}

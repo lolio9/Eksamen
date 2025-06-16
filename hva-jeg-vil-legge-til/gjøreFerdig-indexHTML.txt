@@ -1,0 +1,7 @@
+Jeg har lyst til og gjøre ferdig index.html filen (hjemmeskjermen til nettsiden), jeg har jobbet mest med-
+shoppen i det siste, så skal jeg fortsette på index.html siden, jeg kommer til og bytte navn på den senere-
+men akkurat nå så står hjemmesiden som index.html og shoppen som shop.html også har jeg denne-
+"features.html" som jeg skal fjerne eller bytte ut til en "om-oss.html" fil siden navnene på filene som de er nå-
+er tatt fra en tidligere nettside som jeg har laget som bruker disse 3 sidene, har ikke rukket og fikse det enda
+
+Prioritet: 30 - 200

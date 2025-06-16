@@ -1,0 +1,4 @@
+Jeg vil bytte lagring til en faktisk SQL database, siden jeg har-
+SQL innebygd i Visual Studio Code
+
+Prioritet: 190 - 200

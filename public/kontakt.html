@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      /* Her styler jeg en lik side størrelse for hver nettside page */
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+      }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="nav.css" />
+
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="logo">TOSKA</div>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="komponenter.html">Komponenter</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="kontakt.html">Kontakt</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Her har jeg lagt til selve kontakt formen og send melding knappen -->
+    <form>
+      <label for="navn">Navn:*</label><br />
+      <input type="text" id="navn" name="navn" required /><br /><br />
+
+      <label for="epost">E-post:*</label><br />
+      <input type="email" id="epost" name="epost" required /><br /><br />
+
+      <label for="melding">Melding:*</label><br />
+      <textarea id="melding" name="melding" rows="5" required></textarea
+      ><br /><br />
+
+      <button type="submit">Send melding</button>
+    </form>
+  </head>
+  <body>
+    <main>
+      <style>
+        /* Her har jeg laget styling for kontakt form bodien */
+        form {
+          background: white;
+          padding: 24px;
+          border-radius: 12px;
+          max-width: 170px;
+          margin: 40px auto;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+      </style>
+      <script>
+        // Her har jeg lagt til en melding som sier takk for mendingen ved bruk av "alert();" komponenten
+        document.querySelector("form").addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          this.reset();
+
+          alert("Takk for meldingen! Vi tar kontakt så fort vi kan.");
+        });
+      </script>
+    </main>
+    <footer>
+      <p>© 2025 TOSKA AS - kontakt@toska.no</p>
+    </footer>
+  </body>
+</html>

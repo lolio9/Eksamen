@@ -1,0 +1,56 @@
+/* Generell padding for komponentinfo */
+.komponent-info {
+  padding: 24px;
+}
+
+/* Wrapper for hele seksjonen */
+.komponent-seksjoner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  padding: 24px;
+  justify-content: center;
+}
+
+/* Hver komponentkategori (CPU, RAM, osv.) */
+.kategori {
+  flex: 1 1 350px;
+  max-width: 400px;
+}
+
+/* Tittel for hver kategori */
+.kategori h2 {
+  text-align: center;
+  color: #002b18;
+  font-size: 1.4rem;
+  margin-bottom: 16px;
+}
+
+/* Kort for hver komponent */
+.komponent-kort {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  align-items: flex-start;
+}
+
+/* Bildet av komponenten */
+.komponent-kort img {
+  max-width: 80px;
+  border-radius: 8px;
+}
+
+/* Info-delen av kortet */
+.komponent-kort .info h3 {
+  margin: 0 0 8px 0;
+}
+
+/* Bulletliste med spesifikasjoner */
+.komponent-kort ul {
+  margin: 0;
+  padding-left: 20px;
+}

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      /* Her styler jeg en lik side størrelse for hver nettside page */
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+      }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="nav.css" />
+  </head>
+  <body>
+    <main>
+      <nav class="navbar">
+        <div class="nav-container">
+          <div class="logo">TOSKA</div>
+          <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="komponenter.html">Komponenter</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="kontakt.html">Kontakt</a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Her har jeg laget inngangen til selve Shop siden, jeg tok også og lånte litt her fra min forrige nettsider -->
+      <div style="padding-left: 16px">
+        <h2>Shop</h2>
+        <p></p>
+      </div>
+
+      <!-- Her har jeg laget bestillingsteksten som verifiserer at du har bestilt pcen din, denne delen inkluderer også en
+     bestillingsknapp som da skal gi deg en oppsumering på hva du har bestilt og at den skal bli laget -->
+      <div class="component-grid"></div>
+
+      <div id="oppsummering" style="margin: 24px; font-size: 1.1rem"></div>
+
+      <!-- Her er selve knappen som du bestiller med -->
+      <button
+        onclick="visBestilling()"
+        style="
+          margin: 24px;
+          padding: 12px 24px;
+          font-size: 1rem;
+          background-color: #0d3b1e;
+          color: white;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+        "
+      >
+        Bestill pc
+      </button>
+      <!-- Her har jeg stylet komponent gridden -->
+      <style>
+        .component-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 24px;
+          padding: 24px;
+        }
+
+        .component-card {
+          background: white;
+          padding: 16px;
+          border-radius: 12px;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .component-card select {
+          width: 100%;
+          padding: 6px;
+          font-size: 0.95rem;
+          box-sizing: border-box;
+        }
+
+        @media (max-width: 600px) {
+          .component-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+      </style>
+
+      <!-- Her så har jeg laget en script som da tar og sjekker lager.json og localStorage for og se hva som er på lager-
+     så leverer den fetchen som den finner og sender informasjonen til nettsiden -->
+      <script>
+        window.onload = async () => {
+          const lagret = localStorage.getItem("lager");
+          if (lagret) {
+            lager = JSON.parse(lagret);
+          } else {
+            const res = await fetch("/api/lager");
+            lager = await res.json();
+            localStorage.setItem("lager", JSON.stringify(lager));
+          }
+          byggKomponentvalg();
+        };
+
+        // Her så kommer det valgene der du kan velge mellom hvilken komponenter du vil ha, som du ser på-
+        // hver av komponentene så står der lager.(komponent), dette er det som tar imot fetchen fra tidligere
+        function byggKomponentvalg() {
+          const grid = document.querySelector(".component-grid");
+          grid.innerHTML = "";
+          grid.innerHTML += lagKomponentHtml("CPU", lager.cpu);
+          grid.innerHTML += lagKomponentHtml("RAM", lager.ram);
+          grid.innerHTML += lagKomponentHtml("SSD", lager.ssd);
+          grid.innerHTML += lagKomponentHtml("Grafikkort", lager.gpu);
+          grid.innerHTML += lagKomponentHtml("Operativsystem", lager.os);
+        }
+
+        // Her så ser du at jeg har laget det sånn at om det ikke er igjen noen flere komponenter av en spesifik-
+        // komponent så disabler den komponentene som det er tomt av, som betyr at du ikke kan velge den
+        function lagKomponentHtml(kategoriNavn, komponenter) {
+          let html = `<div class="component-card"><h3>Velg ${kategoriNavn.toUpperCase()}</h3><select>`;
+          komponenter.forEach((item) => {
+            const disabled = item.antall === 0 ? "disabled" : "";
+            const label = `${item.navn} - kr ${item.pris} (${item.antall} på lager)`;
+            html += `<option ${disabled}>${label}</option>`;
+          });
+          html += "</select></div>";
+          return html;
+        }
+
+        // Her så viser nettsiden den faktiske oppsumeringen som jeg snakket om tidligere, den viser deg-
+        // hvilken komponenter du bestilte for pcen din og at de sender en arbeider til og bygge pcen din for deg
+        function visBestilling() {
+          const valg = document.querySelectorAll(".component-card select");
+          const oppsummering = document.getElementById("oppsummering");
+
+          let html = "<h3>Din bestilling:</h3><ul>";
+          let bestilteNoe = false;
+          let totalPris = 0;
+
+          valg.forEach((select) => {
+            const valgtTekst = select.value;
+            if (valgtTekst.includes("Tomt på lager")) return;
+
+            const overskrift = select.previousElementSibling.innerText
+              .toLowerCase()
+              .trim();
+            const kategoriMapping = {
+              "velg cpu": "cpu",
+              "velg ram": "ram",
+              "velg ssd": "ssd",
+              "velg grafikkort": "gpu",
+              "velg operativsystem": "os",
+            };
+            const kategori = kategoriMapping[overskrift];
+
+            const komponent = lager[kategori].find((k) =>
+              valgtTekst.startsWith(k.navn)
+            );
+            if (komponent && komponent.antall > 0) {
+              komponent.antall--;
+              totalPris += komponent.pris;
+              localStorage.setItem("lager", JSON.stringify(lager));
+              html += `<li><strong>${kategori.toUpperCase()}:</strong> ${
+                komponent.navn
+              } - kr ${komponent.pris}</li>`;
+              bestilteNoe = true;
+            }
+          });
+
+          // Denne "bestilteNoe" er det som bekrefter at du faktisk har bestilt noe, som da-
+          // sender den oppsumeringen tidligere
+          if (bestilteNoe) {
+            html += `</ul><p><strong>Totalt: kr ${totalPris}</strong></p>`;
+            html += "<p>En ansatt vil nå sette sammen maskinen.</p>";
+          } else {
+            html = "<p>Du må velge minst én komponent som er på lager.</p>";
+          }
+
+          oppsummering.innerHTML = html;
+          byggKomponentvalg();
+        }
+      </script>
+    </main>
+    <footer>
+      <p>© 2025 TOSKA AS - kontakt@toska.no</p>
+    </footer>
+  </body>
+</html>

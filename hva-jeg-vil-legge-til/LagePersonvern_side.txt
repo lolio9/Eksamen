@@ -1,0 +1,4 @@
+Jeg vil lage en ekstra .html side som kunder kan gå til, og der skal det stå ting om personsikkerhet og alt-
+som vil få kunder til og føle at dataene deres er trygt
+
+Prioritet: 200 - 200

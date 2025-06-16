@@ -1,0 +1,4 @@
+Jeg har lyst til og lage en poengsystem i nettsiden hvor når du bestiller noe så får du en viss mengde poeng basert på-
+hvor mye penger du brukte, og de poengene kan du da bruke på kuponger eller hele kjøp
+
+Prioritet: 10 - 200
